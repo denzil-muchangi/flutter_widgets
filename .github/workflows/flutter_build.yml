@@ -21,17 +21,12 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Enable Windows desktop support
-        run: flutter config --enable-windows-desktop
+
 
       - name: Build Android (APK)
         run: flutter build apk --release
 
-      - name: Build Windows (EXE)
-        run: flutter build windows --release
 
-      - name: Build Web
-        run: flutter build web --release
 
       - name: Upload Android artifact
         uses: actions/upload-artifact@v4
@@ -39,11 +34,10 @@ jobs:
           name: android-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Upload Windows artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-exe
-          path: build/windows/x64/runner/Release/
+
+
+      - name: Build Web
+        run: flutter build web --release
 
       - name: Upload Web artifact
         uses: actions/upload-artifact@v4
