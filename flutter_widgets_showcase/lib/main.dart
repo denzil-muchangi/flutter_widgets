@@ -58,7 +58,7 @@ void main() {
     );
   }
 
-  static Widget _buildProfileScreen() {
+  Widget _buildProfileScreen() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +80,7 @@ void main() {
     );
   }
 
-  static Widget _buildSettingsScreen() {
+  Widget _buildSettingsScreen() {
     return ListView(
       children: [
         const ListTile(
@@ -149,10 +149,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     _buildHomeScreen(),
     _buildProfileScreen(),
-    _buildSettingsScreen(),
+    _buildSettingsScreen()
   ];
 
   void _onItemTapped(int index) {
