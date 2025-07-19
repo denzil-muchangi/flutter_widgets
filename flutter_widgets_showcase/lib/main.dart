@@ -4,6 +4,110 @@ void main() {
   runApp(const MyApp());
 }
 
+  Widget _buildHomeScreen() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Welcome to Flutter Widgets Showcase!', 
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    const Text('Featured Widgets', 
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
+                    GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      children: const [
+                        Chip(label: Text('Container')),
+                        Chip(label: Text('ListView')),
+                        Chip(label: Text('GridView')),
+                        Chip(label: Text('Card')),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text('Recent Activity', 
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: const CircleAvatar(child: Icon(Icons.notifications)),
+                  title: Text('Activity Item \$index'),
+                  subtitle: const Text('Details about this activity'),
+                  trailing: const Icon(Icons.chevron_right),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildProfileScreen() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircleAvatar(
+            radius: 50,
+            backgroundImage: NetworkImage('https://picsum.photos/200'),
+          ),
+          const SizedBox(height: 20),
+          const Text('User Profile', 
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {},
+            child: const Text('Edit Profile'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _buildSettingsScreen() {
+    return ListView(
+      children: [
+        const ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('Settings'),
+          subtitle: Text('App configuration'),
+        ),
+        const Divider(),
+        SwitchListTile(
+          title: const Text('Dark Mode'),
+          value: false,
+          onChanged: (bool value) {},
+        ),
+        const ListTile(
+          leading: Icon(Icons.notifications),
+          title: Text('Notifications'),
+          trailing: Icon(Icons.chevron_right),
+        ),
+        const ListTile(
+          leading: Icon(Icons.help),
+          title: Text('Help & Support'),
+          trailing: Icon(Icons.chevron_right),
+        ),
+      ],
+    );
+  }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -46,9 +150,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home Screen', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-    Text('Profile Screen', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-    Text('Settings Screen', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+    _buildHomeScreen(),
+    _buildProfileScreen(),
+    _buildSettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -64,7 +168,19 @@ class _HomePageState extends State<HomePage> {
         if (constraints.maxWidth > 1200) {
           // Desktop layout with side navigation
           return Scaffold(
-            appBar: AppBar(title: const Text('Flutter Widgets Showcase - Desktop')),
+            appBar: AppBar(
+              title: const Text('Flutter Widgets Showcase - Desktop'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {},
+                ),
+              ],
+            ),
             body: Row(
               children: <Widget>[
                 NavigationRail(
@@ -91,8 +207,36 @@ class _HomePageState extends State<HomePage> {
           return DefaultTabController(
             length: _widgetOptions.length,
             child: Scaffold(
+              drawer: Drawer(
+                child: ListView(
+                  children: [
+                    const DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                      ),
+                      child: Text('Menu'),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.home),
+                      title: const Text('Home'),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text('Profile'),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
               appBar: AppBar(
                 title: const Text('Flutter Widgets Showcase - Tablet'),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {},
+                  ),
+                ],
                 bottom: TabBar(
                   tabs: const <Widget>[
                     Tab(icon: Icon(Icons.home), text: 'Home'),
@@ -110,7 +254,19 @@ class _HomePageState extends State<HomePage> {
         } else {
           // Mobile layout with bottom navigation
           return Scaffold(
-            appBar: AppBar(title: const Text('Flutter Widgets Showcase - Mobile')),
+            appBar: AppBar(
+              title: const Text('Flutter Widgets Showcase - Mobile'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () {},
+            ),
             body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
